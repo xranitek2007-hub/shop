@@ -49,7 +49,7 @@ log = logging.getLogger(__name__)
 #  ⚙️  НАСТРОЙКИ
 # ══════════════════════════════════════════════
 BOT_TOKEN   = os.getenv("BOT_TOKEN",   "8165503899:AAGlY0wz8vMqtWftiOXIDPTh95Gppk06FPs")
-ADMIN_ID    = int(os.getenv("ADMIN_ID", "123456789"))   # ← ЗАМЕНИ свой TG ID
+ADMIN_ID    = int(os.getenv("frozenld1", "123456789"))   # ← ЗАМЕНИ свой TG ID
 ADMIN_USER  = "frozenld1"                               # ← твой @username (без @)
 BOT_USER    = "frozenld_bot"                            # ← username бота (без @)
 WEBHOOK_URL = os.getenv("WEBHOOK_URL", "https://YOUR-APP.railway.app")
@@ -63,7 +63,7 @@ CARDS = [
 ]
 # ══════════════════════════════════════════════
 
-bot  = Bot(token=BOT_TOKEN, parse_mode="HTML")
+bot  = Bot(token=8165503899:AAGlY0wz8vMqtWftiOXIDPTh95Gppk06FPs, parse_mode="HTML")
 dp   = Dispatcher(storage=MemoryStorage())
 app  = FastAPI(title="FrozenShop")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
