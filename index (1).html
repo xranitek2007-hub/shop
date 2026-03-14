@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FrozenShop — Игровые товары</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ════════ VARIABLES ════════ */
+:root{
+  --bg:#050a14;--p1:#080f20;--p2:#0c1830;--p3:#102040;
+  --sky:#29b6f6;--sky2:#0288d1;--sky3:#01579b;
+  --gold:#ffc107;--green:#00e676;--red:#ff5252;--purple:#ce93d8;
+  --text:#eaf4fd;--muted:#4a7a9a;
+  --border:rgba(41,182,246,.12);--bord2:rgba(41,182,246,.28);
+  --r:16px;--R:'Rajdhani',sans-serif;--N:'Nunito',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--N);background:var(--bg);color:var(--text);overflow-x:hidden;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--p1);}
+::-webkit-scrollbar-thumb{background:var(--sky3);border-radius:2px;}
+/* ambience */
+.amb{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.a1{position:absolute;width:700px;height:500px;top:-200px;left:-150px;background:radial-gradient(ellipse,rgba(2,136,209,.1),transparent 68%);animation:af1 20s ease-in-out infinite alternate;}
+.a2{position:absolute;width:600px;height:450px;bottom:-180px;right:-120px;background:radial-gradient(ellipse,rgba(41,182,246,.07),transparent 68%);animation:af2 25s ease-in-out infinite alternate;}
+.a3{position:absolute;width:350px;height:350px;top:42%;left:36%;background:radial-gradient(ellipse,rgba(100,20,200,.05),transparent 70%);animation:af3 18s ease-in-out infinite alternate;}
+@keyframes af1{to{transform:translate(50px,30px)}}
+@keyframes af2{to{transform:translate(-40px,25px)}}
+@keyframes af3{to{transform:translate(20px,-30px)}}
+.gl{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(41,182,246,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(41,182,246,.022) 1px,transparent 1px);
+  background-size:50px 50px;}
+.z1{position:relative;z-index:1;}
+.W{max-width:1100px;margin:0 auto;padding:0 18px;}
+
+/* ════════ NAV ════════ */
+nav{position:sticky;top:0;z-index:300;background:rgba(5,10,20,.92);backdrop-filter:blur(22px);border-bottom:1px solid var(--border);}
+.nav-in{max-width:1100px;margin:0 auto;padding:0 18px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.logo{font-family:var(--R);font-size:22px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:9px;color:var(--text);text-decoration:none;}
+.logo-gem{width:34px;height:34px;border-radius:10px;overflow:hidden;flex-shrink:0;}
+.logo em{font-style:normal;color:var(--sky);}
+.lang-sw{display:flex;gap:3px;background:var(--p1);border:1px solid var(--border);border-radius:12px;padding:3px;}
+.lb{font-family:var(--R);font-size:13px;font-weight:700;padding:5px 11px;border-radius:9px;cursor:pointer;border:none;color:var(--muted);background:none;transition:all .18s;}
+.lb.on{background:var(--sky2);color:#fff;}
+.tg-a{display:flex;align-items:center;gap:7px;background:linear-gradient(135deg,var(--sky3),var(--sky2));color:#fff;font-size:13px;font-weight:700;padding:8px 16px;border-radius:20px;text-decoration:none;transition:all .2s;white-space:nowrap;}
+.tg-a:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(2,136,209,.4);}
+@media(max-width:600px){.logo em{display:none;}}
+
+/* ════════ HERO ════════ */
+.hero{padding:52px 0 40px;text-align:center;}
+.live-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(41,182,246,.07);border:1px solid var(--bord2);color:var(--sky);font-size:11px;font-weight:800;padding:5px 15px;border-radius:20px;margin-bottom:16px;letter-spacing:1px;text-transform:uppercase;}
+.ld{width:6px;height:6px;border-radius:50%;background:var(--green);animation:lp 1.4s infinite;}
+@keyframes lp{0%,100%{box-shadow:0 0 0 0 rgba(0,230,118,.5)}50%{box-shadow:0 0 0 5px rgba(0,230,118,0)}}
+.hero h1{font-family:var(--R);font-size:clamp(40px,7vw,76px);font-weight:700;line-height:.94;letter-spacing:-.5px;margin-bottom:13px;}
+.hl1{display:block;color:var(--text);}
+.hl2{display:block;background:linear-gradient(90deg,#0288d1,#29b6f6,#81d4fa,#29b6f6);background-size:250%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:sh 3.5s linear infinite;}
+@keyframes sh{to{background-position:250% 0}}
+.hero-sub{font-size:15px;color:var(--muted);max-width:480px;margin:0 auto 26px;line-height:1.65;}
+.hero-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;}
+.btn-m{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--sky3),var(--sky2));color:#fff;font-family:var(--R);font-size:16px;font-weight:700;letter-spacing:.4px;padding:12px 26px;border-radius:var(--r);cursor:pointer;border:none;transition:all .25s;box-shadow:0 4px 20px rgba(2,136,209,.35);}
+.btn-m:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(2,136,209,.5);}
+.stats{display:flex;justify-content:center;max-width:520px;margin:0 auto;background:var(--p1);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.st{flex:1;padding:15px 8px;text-align:center;border-right:1px solid var(--border);}
+.st:last-child{border:none;}
+.st-n{font-family:var(--R);font-size:25px;font-weight:700;color:var(--sky);}
+.st-l{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:.3px;margin-top:2px;}
+
+/* ════════ GAME GRID ════════ */
+.games-sec{padding:32px 0 16px;}
+.sec-hd{text-align:center;margin-bottom:26px;}
+.sec-tag{display:block;font-size:10px;font-weight:800;color:var(--sky);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:6px;}
+.sec-t{font-family:var(--R);font-size:clamp(20px,3.5vw,30px);font-weight:700;}
+.game-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:12px;}
+.gb{position:relative;border-radius:var(--r);overflow:hidden;cursor:pointer;border:2px solid transparent;transition:all .25s;aspect-ratio:1/.85;display:flex;flex-direction:column;}
+.gb:hover{transform:translateY(-5px);border-color:rgba(255,255,255,.22);}
+.gb.on{border-color:var(--sky);box-shadow:0 0 0 3px rgba(41,182,246,.2);}
+.gb::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(0,0,0,.72) 100%);pointer-events:none;z-index:2;}
+.gb-icon{position:relative;z-index:3;flex:1;display:flex;align-items:center;justify-content:center;padding-top:12px;}
+.gb-emoji{width:60px;height:60px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 4px 20px rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.1);transition:transform .3s;}
+.gb:hover .gb-emoji{transform:scale(1.1);}
+.gb-label{position:relative;z-index:3;padding:7px 10px 11px;}
+.gb-name{font-family:var(--R);font-size:13px;font-weight:700;letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.gb-sub{font-size:10px;color:rgba(255,255,255,.48);margin-top:1px;}
+.gb-hot{position:absolute;top:7px;left:8px;z-index:4;background:#ff3d00;color:#fff;font-size:8px;font-weight:800;padding:2px 7px;border-radius:5px;letter-spacing:.5px;}
+.gb-new{position:absolute;top:7px;left:8px;z-index:4;background:var(--green);color:#000;font-size:8px;font-weight:800;padding:2px 7px;border-radius:5px;letter-spacing:.5px;}
+
+/* ════════ PRODUCT SECTION ════════ */
+.prod-sec{padding:14px 0 40px;}
+.prod-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px;}
+.prod-title{font-family:var(--R);font-size:24px;font-weight:700;display:flex;align-items:center;gap:10px;}
+.prod-title-emoji{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.back-btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--R);font-size:14px;font-weight:700;color:var(--text);background:var(--p2);border:1.5px solid var(--bord2);border-radius:12px;padding:9px 18px;cursor:pointer;transition:all .22s;}
+.back-btn:hover{background:rgba(41,182,246,.12);border-color:var(--sky);color:var(--sky);transform:translateX(-2px);}
+.back-btn svg{transition:transform .2s;}
+.back-btn:hover svg{transform:translateX(-3px);}
+
+/* currency toggle */
+.curr-row{display:flex;align-items:center;gap:8px;margin-bottom:16px;}
+.curr-label{font-size:12px;color:var(--muted);font-weight:700;}
+.curr-btn{font-family:var(--R);font-size:13px;font-weight:700;padding:6px 14px;border-radius:10px;cursor:pointer;border:1.5px solid var(--border);background:var(--p1);color:var(--muted);transition:all .18s;}
+.curr-btn.on{background:rgba(255,193,7,.1);border-color:var(--gold);color:var(--gold);}
+
+/* notice */
+.notice{display:flex;align-items:flex-start;gap:11px;background:rgba(255,193,7,.05);border:1px solid rgba(255,193,7,.2);border-radius:var(--r);padding:12px 15px;margin-bottom:16px;}
+.notice-ico{font-size:16px;flex-shrink:0;}
+.notice-txt{font-size:12px;color:#ffe082;line-height:1.6;}
+.notice-txt strong{display:block;font-size:13px;color:var(--gold);margin-bottom:1px;}
+code{font-family:'Rajdhani',monospace;background:rgba(255,193,7,.1);color:var(--gold);padding:1px 6px;border-radius:4px;font-size:12px;}
+
+/* cat tabs */
+.cat-row{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;margin-bottom:16px;}
+.cat-row::-webkit-scrollbar{display:none;}
+.chip{font-family:var(--R);font-size:13px;font-weight:700;padding:7px 15px;border-radius:20px;cursor:pointer;background:var(--p1);border:1.5px solid var(--border);color:var(--muted);white-space:nowrap;transition:all .18s;flex-shrink:0;}
+.chip.on{background:rgba(41,182,246,.12);border-color:var(--sky);color:var(--sky);}
+
+/* search */
+.search-row{display:flex;gap:10px;margin-bottom:14px;align-items:center;flex-wrap:wrap;}
+.s-wrap{position:relative;}
+.s-in{background:var(--p2);border:1.5px solid var(--border);border-radius:var(--r);color:var(--text);font-family:var(--N);font-size:14px;padding:10px 14px 10px 36px;outline:none;transition:border-color .2s;width:260px;}
+.s-in:focus{border-color:var(--sky);}
+.s-in::placeholder{color:var(--muted);}
+.s-ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;}
+.del-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(0,230,118,.08);border:1px solid rgba(0,230,118,.2);color:#69f0ae;font-size:10px;font-weight:700;padding:4px 10px;border-radius:7px;}
+
+/* PRODUCT CARDS */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(182px,1fr));gap:11px;}
+.pcard{background:var(--p1);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;transition:all .22s;}
+.pcard:hover{border-color:rgba(41,182,246,.4);transform:translateY(-3px);box-shadow:0 10px 28px rgba(41,182,246,.12);}
+.part{height:100px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.part-ico{width:68px;height:68px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 4px 16px rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.1);}
+.p-cnt{position:absolute;bottom:6px;right:9px;z-index:3;font-family:var(--R);font-size:12px;font-weight:700;color:rgba(255,255,255,.9);text-shadow:0 1px 4px rgba(0,0,0,.8);}
+.pbody{padding:10px 12px 12px;}
+.pname{font-family:var(--R);font-size:15px;font-weight:700;line-height:1.2;margin-bottom:2px;}
+.ptag{display:inline-block;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;margin-left:4px;vertical-align:middle;letter-spacing:.4px;text-transform:uppercase;}
+.t-dbl{background:rgba(0,229,255,.1);color:#00e5ff;border:1px solid rgba(0,229,255,.28);}
+.t-pass{background:rgba(255,193,7,.1);color:var(--gold);border:1px solid rgba(255,193,7,.25);}
+.t-boost{background:rgba(255,82,82,.1);color:#ff5252;border:1px solid rgba(255,82,82,.25);}
+.t-new{background:rgba(0,230,118,.1);color:var(--green);border:1px solid rgba(0,230,118,.25);}
+.t-gift{background:rgba(206,147,216,.1);color:var(--purple);border:1px solid rgba(206,147,216,.25);}
+.t-login{background:rgba(255,193,7,.1);color:var(--gold);border:1px solid rgba(255,193,7,.25);}
+.pdesc{font-size:11px;color:var(--muted);margin:2px 0 8px;line-height:1.4;}
+.pfoot{display:flex;align-items:center;justify-content:space-between;gap:6px;}
+.pprice-col{display:flex;flex-direction:column;gap:2px;}
+.pprice{font-family:var(--R);font-size:17px;font-weight:700;color:var(--gold);}
+.pprice small{font-size:10px;color:var(--muted);}
+.pprice-rub{font-size:11px;color:rgba(255,193,7,.5);font-family:var(--R);font-weight:600;}
+.oa{display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,var(--sky3),var(--sky2));color:#fff;font-family:var(--R);font-size:12px;font-weight:700;letter-spacing:.3px;padding:7px 12px;border-radius:9px;text-decoration:none;transition:all .18s;white-space:nowrap;cursor:pointer;border:none;}
+.oa:hover{transform:scale(1.05);box-shadow:0 3px 12px rgba(2,136,209,.4);}
+
+/* ════════ BOOST ════════ */
+.boost-hero{background:linear-gradient(135deg,rgba(255,82,82,.1),rgba(255,160,0,.07),rgba(5,10,20,.9));border:1px solid rgba(255,82,82,.2);border-radius:20px;padding:22px;margin-bottom:20px;position:relative;overflow:hidden;}
+.boost-hero::before{content:'⚔️';position:absolute;font-size:100px;opacity:.05;right:-10px;top:-10px;}
+.boost-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(255,82,82,.12);border:1px solid rgba(255,82,82,.25);color:#ff8a80;font-size:11px;font-weight:800;padding:4px 12px;border-radius:20px;margin-bottom:10px;letter-spacing:.5px;}
+.boost-title{font-family:var(--R);font-size:26px;font-weight:700;margin-bottom:5px;}
+.boost-sub{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:16px;}
+.boost-stats{display:flex;gap:16px;flex-wrap:wrap;}
+.bs-item{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.3);border:1px solid rgba(255,82,82,.15);border-radius:10px;padding:8px 14px;font-size:13px;font-weight:700;}
+.star-prices{background:var(--p2);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:18px;}
+.sp-title{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;}
+.sp-grid{display:flex;gap:8px;flex-wrap:wrap;}
+.sp-item{background:var(--p1);border:1px solid var(--border);border-radius:9px;padding:7px 12px;font-size:13px;font-weight:700;}
+.sp-item span{color:var(--gold);}
+.rank-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:11px;}
+.rank-card{background:var(--p1);border:1.5px solid var(--border);border-radius:var(--r);padding:16px;transition:all .22s;text-align:center;}
+.rank-card:hover{border-color:rgba(255,82,82,.4);transform:translateY(-3px);}
+.rank-icon{font-size:32px;margin-bottom:8px;}
+.rank-name{font-family:var(--R);font-size:16px;font-weight:700;margin-bottom:4px;}
+.rank-price{font-family:var(--R);font-size:13px;color:var(--muted);margin-bottom:8px;}
+.rank-price span{color:var(--gold);}
+.rank-btn{display:block;width:100%;background:linear-gradient(135deg,rgba(255,82,82,.8),rgba(255,160,0,.8));color:#fff;font-family:var(--R);font-size:13px;font-weight:700;padding:8px;border-radius:9px;border:none;cursor:pointer;transition:all .18s;}
+.rank-btn:hover{transform:scale(1.03);}
+
+/* ════════ STARS ════════ */
+.stars-hero{position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(49,8,100,.3),rgba(123,31,162,.15),rgba(5,10,20,.9));border:1px solid rgba(206,147,216,.18);border-radius:20px;padding:22px;margin-bottom:20px;}
+.stars-hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(206,147,216,.3) 1px,transparent 1px);background-size:26px 26px;opacity:.22;}
+.s-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(123,31,162,.2);border:1px solid rgba(206,147,216,.25);color:#e1bee7;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;margin-bottom:10px;}
+.sh-t{font-family:var(--R);font-size:26px;font-weight:700;margin-bottom:5px;}
+.sh-t span{color:#ce93d8;}
+.sh-s{font-size:13px;color:#9575cd;line-height:1.6;margin-bottom:14px;}
+.rate-box{display:inline-flex;align-items:center;gap:14px;background:rgba(0,0,0,.35);border:1px solid rgba(206,147,216,.18);border-radius:12px;padding:10px 18px;}
+.rv{font-family:var(--R);font-size:28px;font-weight:700;color:#ce93d8;}
+.rl{font-size:11px;color:#7b52a0;font-weight:600;}
+.bonus-bar{display:flex;align-items:center;gap:12px;background:rgba(255,193,7,.05);border:1px solid rgba(255,193,7,.18);border-radius:var(--r);padding:12px 15px;margin-bottom:18px;}
+.bb-i{font-size:20px;}
+.bb-t strong{display:block;font-size:14px;color:var(--gold);font-weight:700;margin-bottom:2px;}
+.bb-t span{font-size:12px;color:var(--muted);}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:9px;margin-bottom:18px;}
+.sc{background:var(--p1);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:all .2s;position:relative;}
+.sc:hover{border-color:rgba(206,147,216,.4);transform:translateY(-3px);}
+.sc.sel{border-color:#7b1fa2;background:rgba(123,31,162,.1);}
+.sc.bon{border-color:rgba(255,193,7,.3);}
+.sc-art{height:64px;background:linear-gradient(135deg,#1a0035,#3d006a);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.sc-art::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80px 50px at 65% 35%,rgba(150,0,240,.25),transparent 65%);}
+.sc-bon-tag{position:absolute;top:5px;right:5px;background:rgba(255,193,7,.2);color:var(--gold);font-size:8px;font-weight:800;padding:2px 5px;border-radius:4px;z-index:2;}
+.sc-info{padding:8px 9px 10px;}
+.sc-q{font-family:var(--R);font-size:15px;font-weight:700;color:#e1bee7;}
+.sc-p{font-size:11px;font-weight:700;color:var(--gold);margin-top:2px;}
+.sf{background:var(--p1);border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:14px;}
+.sf-t{font-family:var(--R);font-size:18px;font-weight:700;margin-bottom:3px;}
+.sf-s{font-size:12px;color:var(--muted);margin-bottom:13px;line-height:1.5;}
+.sf-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+@media(max-width:480px){.sf-grid{grid-template-columns:1fr;}}
+.fl label{display:block;font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.6px;text-transform:uppercase;margin-bottom:5px;}
+.fi{width:100%;background:var(--p2);border:1.5px solid var(--border);border-radius:11px;color:var(--text);font-family:var(--N);font-size:14px;padding:10px 13px;outline:none;transition:border-color .2s;}
+.fi:focus{border-color:#7b1fa2;}
+.fi::placeholder{color:var(--muted);}
+.sf-res{display:flex;justify-content:space-between;align-items:center;background:rgba(123,31,162,.07);border:1px solid rgba(123,31,162,.22);border-radius:10px;padding:11px 14px;margin-bottom:11px;}
+.sr-l{font-size:11px;color:#9575cd;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
+.sr-v{font-family:var(--R);font-size:21px;font-weight:700;color:#ce93d8;}
+.s-ob{width:100%;background:linear-gradient(135deg,#4a148c,#7b1fa2);border:none;border-radius:13px;color:#fff;font-family:var(--R);font-size:17px;font-weight:700;padding:14px;cursor:pointer;transition:all .22s;box-shadow:0 4px 18px rgba(123,31,162,.3);}
+.s-ob:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(123,31,162,.5);}
+.s-ob:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+
+/* ════════ HOW TO ════════ */
+.how-sec{padding:28px 0 40px;}
+.how-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(195px,1fr));gap:11px;}
+.hc{background:var(--p1);border:1px solid var(--border);border-radius:var(--r);padding:18px;position:relative;overflow:hidden;}
+.hc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--sky3),var(--sky));}
+.hn{font-family:var(--R);font-size:44px;font-weight:700;color:var(--sky);opacity:.1;position:absolute;top:6px;right:10px;line-height:1;}
+.hi{font-size:24px;margin-bottom:8px;}
+.ht{font-family:var(--R);font-size:15px;font-weight:700;margin-bottom:4px;}
+.hd{font-size:12px;color:var(--muted);line-height:1.55;}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:10px;margin-top:14px;}
+.cc{background:var(--p1);border:1px solid var(--border);border-radius:var(--r);padding:15px;display:flex;align-items:center;gap:11px;}
+.ci-w{width:40px;height:40px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.cl{font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
+.cv{font-size:14px;font-weight:700;color:var(--sky);margin-top:2px;}
+
+/* ════════ HISTORY ════════ */
+.hist-sec{padding:16px 0 8px;}
+.hist-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.hist-title{font-family:var(--R);font-size:20px;font-weight:700;}
+.hist-clear{font-size:11px;color:var(--muted);cursor:pointer;background:none;border:1px solid var(--border);padding:4px 10px;border-radius:8px;transition:all .2s;}
+.hist-clear:hover{color:var(--red);border-color:var(--red);}
+.hist-list{display:flex;flex-direction:column;gap:8px;}
+.hist-item{background:var(--p1);border:1.5px solid var(--border);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px;transition:border-color .2s;cursor:pointer;}
+.hist-item:hover{border-color:rgba(41,182,246,.35);}
+.hist-item.st-done{border-color:rgba(0,230,118,.25);}
+.hist-item.st-rejected{border-color:rgba(255,82,82,.25);opacity:.7;}
+.hist-ico{width:42px;height:42px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.hist-body{flex:1;min-width:0;}
+.hist-name{font-family:var(--R);font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hist-game{font-size:11px;color:var(--muted);}
+.hist-right{text-align:right;flex-shrink:0;}
+.hist-price{font-family:var(--R);font-size:14px;font-weight:700;color:var(--gold);}
+.hist-date{font-size:10px;color:var(--muted);margin-top:1px;}
+.hist-status{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:2px 8px;border-radius:5px;margin-top:3px;}
+.hs-p{background:rgba(255,193,7,.1);color:var(--gold);border:1px solid rgba(255,193,7,.25);}
+.hs-d{background:rgba(0,230,118,.1);color:var(--green);border:1px solid rgba(0,230,118,.25);}
+.hs-r{background:rgba(255,82,82,.1);color:var(--red);border:1px solid rgba(255,82,82,.25);}
+.hist-open-btn{font-family:var(--R);font-size:11px;font-weight:700;padding:4px 10px;border-radius:8px;background:rgba(41,182,246,.08);border:1px solid var(--bord2);color:var(--sky);cursor:pointer;margin-top:4px;display:inline-block;transition:all .18s;}
+.hist-open-btn:hover{background:rgba(41,182,246,.18);}
+.hist-poll{font-size:10px;color:var(--muted);display:flex;align-items:center;gap:4px;margin-top:2px;}
+.poll-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);animation:lp 1.4s infinite;}
+
+/* ════════ PAYMENT MODAL ════════ */
+.mbg{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:500;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .25s;backdrop-filter:blur(10px);}
+.mbg.on{opacity:1;pointer-events:all;}
+.mbox{background:var(--p1);border:1.5px solid var(--bord2);border-radius:22px;width:100%;max-width:440px;max-height:90vh;overflow-y:auto;padding:26px;transform:scale(.92);transition:transform .3s cubic-bezier(.175,.885,.32,1.275);}
+.mbg.on .mbox{transform:none;}
+.ok-r{width:66px;height:66px;border-radius:50%;margin:0 auto 14px;background:rgba(0,230,118,.08);border:2px solid rgba(0,230,118,.35);display:flex;align-items:center;justify-content:center;font-size:26px;animation:rp .4s cubic-bezier(.175,.885,.32,1.275) both;}
+@keyframes rp{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+.m-t{font-family:var(--R);font-size:22px;font-weight:700;text-align:center;margin-bottom:4px;}
+.m-s{font-size:13px;color:var(--muted);text-align:center;margin-bottom:16px;line-height:1.5;}
+/* product pill */
+.m-prod{display:flex;align-items:center;gap:12px;background:var(--p2);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:14px;}
+.m-prod-ico{width:42px;height:42px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;}
+.m-prod-name{font-family:var(--R);font-size:15px;font-weight:700;}
+.m-prod-game{font-size:11px;color:var(--muted);margin-top:1px;}
+/* amount */
+.apill{background:rgba(255,193,7,.07);border:1px solid rgba(255,193,7,.22);border-radius:12px;padding:14px;text-align:center;margin-bottom:14px;}
+.apill p{font-size:11px;color:var(--muted);margin-bottom:3px;}
+.apill strong{font-family:var(--R);font-size:30px;font-weight:700;color:var(--gold);display:block;}
+.apill-sub{font-size:12px;color:rgba(255,193,7,.5);margin-top:2px;}
+/* cards */
+.plbl{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;}
+.bc{background:var(--p2);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:10px;}
+.bc-top{height:52px;display:flex;align-items:center;padding:0 15px;gap:10px;position:relative;}
+.bc-bg1{background:linear-gradient(135deg,#1b003a,#3700b3);}
+.bc-bg2{background:linear-gradient(135deg,#003300,#1b5e20);}
+.humo{font-family:var(--R);font-size:21px;font-weight:700;color:#fff;letter-spacing:2px;}
+.circles{position:absolute;right:14px;display:flex;}
+.ci{width:28px;height:28px;border-radius:50%;opacity:.75;}
+.ci1{background:#ff3d00;}.ci2{background:#ff6d00;margin-left:-12px;}
+.bc-b{padding:10px 15px 13px;}
+.bnum{font-family:'Rajdhani',monospace;font-size:20px;font-weight:700;letter-spacing:2.5px;color:var(--sky);margin-bottom:4px;}
+.bown{font-size:11px;color:var(--muted);margin-bottom:9px;}
+.cp-btn{display:inline-flex;align-items:center;gap:5px;background:rgba(41,182,246,.07);border:1.5px solid var(--border);color:var(--sky);font-size:12px;font-weight:700;padding:7px 14px;border-radius:9px;cursor:pointer;font-family:var(--N);transition:all .18s;}
+.cp-btn:hover{background:rgba(41,182,246,.14);}
+.cp-btn.ok{background:rgba(0,230,118,.08);color:var(--green);border-color:rgba(0,230,118,.3);}
+.m-note{background:rgba(41,182,246,.05);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-top:12px;font-size:12px;color:var(--muted);line-height:1.6;}
+.m-note strong{color:var(--sky);}
+.m-cl{width:100%;margin-top:12px;background:var(--p2);border:1.5px solid var(--border);color:var(--text);font-family:var(--R);font-size:16px;font-weight:700;padding:12px;border-radius:13px;cursor:pointer;transition:all .18s;}
+.m-cl:hover{background:rgba(41,182,246,.08);}
+
+/* ════════ TG ID PROMPT ════════ */
+.tg-prompt{background:linear-gradient(135deg,rgba(41,182,246,.08),rgba(2,136,209,.04));border:1px solid var(--bord2);border-radius:20px;padding:20px;margin-bottom:20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.tg-prompt-ico{font-size:36px;flex-shrink:0;}
+.tg-prompt-body{flex:1;min-width:200px;}
+.tg-prompt-body strong{font-family:var(--R);font-size:17px;font-weight:700;display:block;margin-bottom:3px;}
+.tg-prompt-body span{font-size:12px;color:var(--muted);}
+.tg-link-btn{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,var(--sky3),var(--sky2));color:#fff;font-family:var(--R);font-size:14px;font-weight:700;padding:10px 18px;border-radius:12px;text-decoration:none;transition:all .2s;white-space:nowrap;flex-shrink:0;}
+.tg-link-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(2,136,209,.4);}
+
+/* toast */
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--p2);border:1px solid var(--bord2);color:var(--text);padding:9px 22px;border-radius:12px;font-size:13px;font-weight:700;z-index:700;opacity:0;transition:all .25s;pointer-events:none;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.5);}
+.toast.on{opacity:1;transform:translateX(-50%);}
+@media(max-width:480px){.s-in{width:100%;}}
+</style>
+</head>
+<body>
+<div class="amb z1" aria-hidden="true"><div class="a1"></div><div class="a2"></div><div class="a3"></div></div>
+<div class="gl" aria-hidden="true"></div>
+
+<!-- NAV -->
+<nav class="z1">
+  <div class="nav-in">
+    <a class="logo" href="#" onclick="selGame(null);return false;">
+      <div class="logo-gem">
+        <svg viewBox="0 0 34 34" fill="none"><rect width="34" height="34" rx="10" fill="#0a1a40"/><polygon points="17,4 25,13 17,30 9,13" fill="rgba(100,200,255,.08)"/><polygon points="17,4 25,13 17,17" fill="#b3e5fc" opacity=".8"/><polygon points="17,4 9,13 17,17" fill="#e1f5fe" opacity=".9"/><polygon points="9,13 17,30 17,17" fill="#0277bd" opacity=".7"/><polygon points="25,13 17,30 17,17" fill="#01579b" opacity=".75"/></svg>
+      </div>
+      Frozen<em>Shop</em>
+    </a>
+    <div class="lang-sw">
+      <button class="lb on" onclick="setLang('ru')">RU</button>
+      <button class="lb" onclick="setLang('uz')">UZ</button>
+      <button class="lb" onclick="setLang('en')">EN</button>
+    </div>
+    <a class="tg-a" href="https://t.me/frozenld_bot" target="_blank">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M20.665 3.717l-17.73 6.837c-1.21.486-1.203 1.161-.222 1.462l4.552 1.42 10.532-6.645c.498-.303.953-.14.579.192l-8.533 7.701-.332 4.99c.487 0 .703-.22.975-.484l2.34-2.272 4.87 3.597c.89.492 1.53.24 1.752-.824L21.665 5.1c.31-1.24-.474-1.8-1-.383z"/></svg>
+      @frozenld_bot
+    </a>
+  </div>
+</nav>
+
+<div class="z1 W">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="live-badge"><div class="ld"></div><span data-t="live">Работаем 24/7</span></div>
+  <h1>
+    <span class="hl1" data-t="h1a">Игровые товары</span>
+    <span class="hl2" data-t="h1b">быстро и выгодно</span>
+  </h1>
+  <p class="hero-sub" data-t="hsub">Алмазы, валюта, пропуска для ваших любимых игр. Доставка от 5 минут.</p>
+  <div class="hero-btns">
+    <button class="btn-m" onclick="document.getElementById('gsec').scrollIntoView({behavior:'smooth'})" data-t="btn_shop">🎮 Выбрать игру</button>
+  </div>
+  <div class="stats">
+    <div class="st"><div class="st-n">13+</div><div class="st-l" data-t="st1">Категорий</div></div>
+    <div class="st"><div class="st-n">5 мин</div><div class="st-l" data-t="st2">Доставка</div></div>
+    <div class="st"><div class="st-n" id="stat-orders">0</div><div class="st-l" data-t="st3">Заказов</div></div>
+    <div class="st"><div class="st-n">24/7</div><div class="st-l" data-t="st4">Онлайн</div></div>
+  </div>
+</div>
+
+<!-- TG LINK PROMPT (показывается если нет TG ID) -->
+<div class="tg-prompt" id="tg-prompt" style="display:none">
+  <div class="tg-prompt-ico">🔔</div>
+  <div class="tg-prompt-body">
+    <strong>Подключи Telegram для уведомлений</strong>
+    <span>Напиши боту /start — статус заказа придёт прямо в Telegram</span>
+  </div>
+  <a class="tg-link-btn" href="https://t.me/frozenld_bot?start=link" target="_blank" onclick="promptLinked()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M20.665 3.717l-17.73 6.837c-1.21.486-1.203 1.161-.222 1.462l4.552 1.42 10.532-6.645c.498-.303.953-.14.579.192l-8.533 7.701-.332 4.99c.487 0 .703-.22.975-.484l2.34-2.272 4.87 3.597c.89.492 1.53.24 1.752-.824L21.665 5.1c.31-1.24-.474-1.8-1-.383z"/></svg>
+    Открыть бота
+  </a>
+</div>
+
+<!-- HISTORY -->
+<div class="hist-sec" id="hist-sec" style="display:none">
+  <div class="hist-hd">
+    <div class="hist-title">🕐 История заказов</div>
+    <button class="hist-clear" onclick="clearHistory()">Очистить</button>
+  </div>
+  <div class="hist-list" id="hist-list"></div>
+  <div style="height:8px"></div>
+</div>
+
+<!-- GAME GRID -->
+<div class="games-sec" id="gsec">
+  <div class="sec-hd">
+    <span class="sec-tag" data-t="choose_tag">Выберите игру</span>
+    <div class="sec-t" data-t="choose_t">Нажмите на игру чтобы открыть товары</div>
+  </div>
+  <div class="game-grid" id="game-grid"></div>
+</div>
+
+<!-- PRODUCTS -->
+<div class="prod-sec" id="prod-sec" style="display:none">
+  <div class="prod-header">
+    <div class="prod-title" id="prod-title-wrap">
+      <div class="prod-title-emoji" id="prod-title-emoji"></div>
+      <span id="prod-title"></span>
+    </div>
+    <button class="back-btn" onclick="selGame(null)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+      <span data-t="back">Все игры</span>
+    </button>
+  </div>
+  <div id="notice-mlbb" class="notice" style="display:none"><div class="notice-ico">⚠️</div><div class="notice-txt" data-t="mlbb_notice_html"></div></div>
+  <div id="notice-id"   class="notice" style="display:none"><div class="notice-ico">🔑</div><div class="notice-txt" data-t="id_notice_html"></div></div>
+  <div id="notice-login" class="notice" style="display:none"><div class="notice-ico">🔐</div><div class="notice-txt" data-t="login_notice_html"></div></div>
+  <div class="curr-row">
+    <span class="curr-label">Валюта:</span>
+    <button class="curr-btn on" id="cb-sum" onclick="setCurr('sum')">🇺🇿 Сум</button>
+    <button class="curr-btn"    id="cb-rub" onclick="setCurr('rub')">🇷🇺 Рубли</button>
+  </div>
+  <div class="cat-row" id="cat-row"></div>
+  <div class="search-row">
+    <div class="s-wrap"><span class="s-ico">🔍</span><input class="s-in" id="s-in" type="text" placeholder="Поиск..." oninput="renderProds()"></div>
+    <div class="del-badge">⚡ <span data-t="delivery">Доставка от 5 минут</span></div>
+  </div>
+  <div id="boost-sec" style="display:none">
+    <div class="boost-hero">
+      <div class="boost-badge">⚔️ Бустинг</div>
+      <div class="boost-title" data-t="boost_title">Поднимем ваш ранг!</div>
+      <div class="boost-sub" data-t="boost_sub">Профессиональный бустинг. Винрейт 70–80%. Быстро и безопасно.</div>
+      <div class="boost-stats">
+        <div class="bs-item">😎 <span data-t="wr">70–80% winrate</span></div>
+        <div class="bs-item">⚡ <span data-t="boost_fast">Быстро</span></div>
+        <div class="bs-item">🦸 <span data-t="boost_hero">Любой герой</span></div>
+        <div class="bs-item">🔒 <span data-t="safe">Безопасно</span></div>
+      </div>
+    </div>
+    <div class="star-prices">
+      <div class="sp-title" data-t="star_price_title">Цена за 1 звезду MMR</div>
+      <div class="sp-grid">
+        <div class="sp-item">⭐×1 = <span>4 000 сум</span></div>
+        <div class="sp-item">⭐×1 = <span>5 000 сум</span></div>
+        <div class="sp-item">⭐×1 = <span>6 000 сум</span></div>
+        <div class="sp-item">⭐×1 = <span>7 000 сум</span></div>
+        <div class="sp-item">⭐×1 = <span>8 000 сум</span></div>
+        <div class="sp-item">⭐×1 = <span>11 000 сум</span></div>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:8px" data-t="star_price_note">Цена зависит от ранга. Уточняй в @frozenld_bot</div>
+    </div>
+    <div class="rank-grid" id="rank-grid"></div>
+  </div>
+  <div class="pgrid" id="pgrid"></div>
+</div>
+
+<!-- STARS -->
+<div id="stars-sec" style="display:none">
+  <div class="prod-header">
+    <div class="prod-title">⭐ Telegram Stars</div>
+    <button class="back-btn" onclick="selGame(null)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+      <span data-t="back">Все игры</span>
+    </button>
+  </div>
+  <div class="curr-row">
+    <span class="curr-label">Валюта:</span>
+    <button class="curr-btn on" id="cb-sum-s" onclick="setCurr('sum');renderStarsGrid()">🇺🇿 Сум</button>
+    <button class="curr-btn"    id="cb-rub-s" onclick="setCurr('rub');renderStarsGrid()">🇷🇺 Рубли</button>
+  </div>
+  <div class="stars-hero">
+    <div class="s-badge">✨ Telegram Stars</div>
+    <div class="sh-t" data-t="stars_title">Звёзды для <span>Telegram</span></div>
+    <p class="sh-s" data-t="stars_sub">Отправляй создателям, разблокируй контент, дари подарки. Мин. 50 звёзд.</p>
+    <div class="rate-box">
+      <svg width="28" height="28" viewBox="0 0 28 28"><polygon points="14,2 17.5,10.5 27,10.5 20,16 22.5,24.5 14,19.5 5.5,24.5 8,16 1,10.5 10.5,10.5" fill="#ce93d8"/></svg>
+      <div><div class="rl" data-t="per_star">1 звезда</div><div class="rv" id="star-rate">270 <span style="font-size:15px;color:var(--muted)">сум</span></div></div>
+    </div>
+  </div>
+  <div class="bonus-bar"><div class="bb-i">🎁</div><div class="bb-t"><strong data-t="bonus_t">Бонус от 500 звёзд — скидка 3%!</strong><span data-t="bonus_s">При заказе 500+ звёзд получаешь скидку 3%</span></div></div>
+  <div class="sec-tag" style="margin-bottom:10px" data-t="pkgs">Готовые пакеты</div>
+  <div class="sgrid" id="sgrid"></div>
+  <div class="sf">
+    <div class="sf-t" data-t="sf_t">Оформить заказ Stars</div>
+    <div class="sf-s" data-t="sf_s">Заполните форму — пришлём реквизиты сразу в боте</div>
+    <div class="sf-grid">
+      <div class="fl"><label data-t="sf_qty">Количество *</label><input class="fi" id="sf-q" type="number" min="50" placeholder="Мин. 50" oninput="sfCalc()"></div>
+      <div class="fl"><label data-t="sf_tg">Ваш Telegram *</label><input class="fi" id="sf-tg" type="text" placeholder="@username"></div>
+    </div>
+    <div class="fl" style="margin-bottom:10px"><label data-t="sf_note">Комментарий</label><input class="fi" id="sf-note" type="text" placeholder="Необязательно"></div>
+    <div class="sf-res"><div class="sr-l" data-t="total_l">Итого</div><div class="sr-v" id="sf-total">—</div></div>
+    <button class="s-ob" id="sf-btn" onclick="submitStars()" disabled data-t="sf_btn">⭐ Заказать звёзды</button>
+  </div>
+</div>
+
+<!-- HOW TO -->
+<div class="how-sec">
+  <div class="sec-hd">
+    <span class="sec-tag" data-t="how_tag">Как купить</span>
+    <div class="sec-t" data-t="how_t">За 3 минуты</div>
+  </div>
+  <div class="how-grid">
+    <div class="hc"><div class="hn">1</div><div class="hi">🎮</div><div class="ht" data-t="h1t">Выберите игру</div><div class="hd" data-t="h1d">Нажмите на нужную игру из списка</div></div>
+    <div class="hc"><div class="hn">2</div><div class="hi">💎</div><div class="ht" data-t="h2t">Выберите товар</div><div class="hd" data-t="h2d">Выберите пакет и нажмите "Заказать"</div></div>
+    <div class="hc"><div class="hn">3</div><div class="hi">📋</div><div class="ht" data-t="h3t">Скопируйте карту</div><div class="hd" data-t="h3d">Реквизиты появятся прямо на экране</div></div>
+    <div class="hc"><div class="hn">4</div><div class="hi">💳</div><div class="ht" data-t="h4t">Оплатите</div><div class="hd" data-t="h4d">Переведите сумму на карту Humo</div></div>
+    <div class="hc"><div class="hn">5</div><div class="hi">📸</div><div class="ht" data-t="h5t">Пришлите чек</div><div class="hd" data-t="h5d">Отправьте скриншот оплаты боту @frozenld_bot</div></div>
+    <div class="hc"><div class="hn">6</div><div class="hi">⚡</div><div class="ht" data-t="h6t">Получите товар</div><div class="hd" data-t="h6d">Бот уведомит когда заказ выдан</div></div>
+  </div>
+  <div class="cgrid">
+    <div class="cc"><div class="ci-w" style="background:linear-gradient(135deg,#1565c0,#1e88e5)"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M20.665 3.717l-17.73 6.837c-1.21.486-1.203 1.161-.222 1.462l4.552 1.42 10.532-6.645c.498-.303.953-.14.579.192l-8.533 7.701-.332 4.99c.487 0 .703-.22.975-.484l2.34-2.272 4.87 3.597c.89.492 1.53.24 1.752-.824L21.665 5.1c.31-1.24-.474-1.8-1-.383z"/></svg></div><div><div class="cl">Telegram</div><div class="cv">@frozenld_bot</div></div></div>
+    <div class="cc"><div class="ci-w" style="background:linear-gradient(135deg,#1b5e20,#43a047)"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg></div><div><div class="cl" data-t="phone">Телефон</div><div class="cv">+998 93 236 18 44</div></div></div>
+    <div class="cc"><div class="ci-w" style="background:linear-gradient(135deg,#e65100,#f57c00)"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm.5 5v5.25l4.5 2.67-.75 1.23L11 13V7h1.5z"/></svg></div><div><div class="cl" data-t="hours">Режим работы</div><div class="cv" data-t="hours_v">Круглосуточно</div></div></div>
+    <div class="cc"><div class="ci-w" style="background:linear-gradient(135deg,#4a148c,#7b1fa2)"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M20.665 3.717l-17.73 6.837c-1.21.486-1.203 1.161-.222 1.462l4.552 1.42 10.532-6.645c.498-.303.953-.14.579.192l-8.533 7.701-.332 4.99c.487 0 .703-.22.975-.484l2.34-2.272 4.87 3.597c.89.492 1.53.24 1.752-.824L21.665 5.1c.31-1.24-.474-1.8-1-.383z"/></svg></div><div><div class="cl">Проблема?</div><div class="cv">@frozenld_bot</div></div></div>
+  </div>
+  <div style="height:40px"></div>
+</div>
+
+</div><!-- /W -->
+
+<!-- PAYMENT MODAL -->
+<div class="mbg z1" id="mbg">
+  <div class="mbox">
+    <div class="ok-r">📋</div>
+    <div class="m-t">Скопируйте реквизиты</div>
+    <div class="m-s">Переведите точную сумму и пришлите скриншот боту</div>
+    <div class="m-prod" id="m-prod" style="display:none">
+      <div class="m-prod-ico" id="m-prod-ico"></div>
+      <div><div class="m-prod-name" id="m-prod-name"></div><div class="m-prod-game" id="m-prod-game"></div></div>
+    </div>
+    <div class="apill">
+      <p>Сумма к оплате</p>
+      <strong id="m-total">—</strong>
+      <div class="apill-sub" id="m-total-sub"></div>
+    </div>
+    <div class="plbl">Реквизиты для оплаты</div>
+    <div class="bc"><div class="bc-top bc-bg1"><div class="humo">HUMO</div><div class="circles"><div class="ci ci1"></div><div class="ci ci2"></div></div></div>
+      <div class="bc-b"><div class="bnum">9860 1606 3787 3359</div><div class="bown">Бухарбаев Бердах</div>
+        <button class="cp-btn" id="cb1" onclick="copyCard('9860160637873359',1)">📋 Копировать</button></div></div>
+    <div class="bc"><div class="bc-top bc-bg2"><div class="humo">HUMO</div><div class="circles"><div class="ci ci1"></div><div class="ci ci2"></div></div></div>
+      <div class="bc-b"><div class="bnum">9860 3501 4482 3951</div><div class="bown">Бухарбаев Бердах</div>
+        <button class="cp-btn" id="cb2" onclick="copyCard('9860350144823951',2)">📋 Копировать</button></div></div>
+    <div class="m-note">
+      После оплаты пришлите скриншот чека боту <strong>@frozenld_bot</strong><br>
+      Доставка <strong>от 5 минут</strong> ✅<br><br>
+      Проблема с заказом? Пишите <strong>@frozenld_bot</strong>
+    </div>
+    <button class="m-cl" onclick="closePay()">Закрыть</button>
+  </div>
+</div>
+<div class="toast z1" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════
+//  CONFIG — замени после деплоя
+// ══════════════════════════════════════════════
+const API_BASE = 'https://YOUR-APP.railway.app';  // ← адрес Railway после деплоя
+const BOT_USERNAME = 'frozenld_bot';             // ← username твоего бота
+
+// ══════════════════════════════════════════════
+//  LOCALSTORAGE DB
+// ══════════════════════════════════════════════
+const LS_ORDERS = 'fs_orders_v3';
+const LS_STATS  = 'fs_stats_v2';
+const LS_BUYER  = 'fs_buyer_v1';
+
+function lsGet(k){try{return JSON.parse(localStorage.getItem(k)||'null');}catch(e){return null;}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+
+function getOrders(){return lsGet(LS_ORDERS)||[];}
+function saveOrders(a){lsSet(LS_ORDERS,a);}
+function getStats(){return lsGet(LS_STATS)||{orders:0};}
+function saveStats(s){lsSet(LS_STATS,s);}
+
+// buyer_id — храним в localStorage как "связанный" TG ID
+function getBuyerId(){return lsGet(LS_BUYER)?.id||null;}
+function getBuyerName(){return lsGet(LS_BUYER)?.name||null;}
+function setBuyer(id,name,username){lsSet(LS_BUYER,{id,name,username});}
+
+function addOrder(o){
+  const arr=getOrders(); arr.unshift(o); saveOrders(arr);
+  const s=getStats(); s.orders=(s.orders||0)+1; saveStats(s);
+  updateStatBadge(); renderHistory();
+}
+function updateOrderStatus(id,status){
+  const arr=getOrders();
+  const idx=arr.findIndex(x=>x.id===id);
+  if(idx>-1){arr[idx].status=status; saveOrders(arr); renderHistory();}
+}
+function updateStatBadge(){
+  document.getElementById('stat-orders').textContent=getStats().orders||0;
+}
+
+// ══════════════════════════════════════════════
+//  TRANSLATIONS
+// ══════════════════════════════════════════════
+const T={
+  ru:{
+    live:'Работаем 24/7',h1a:'Игровые товары',h1b:'быстро и выгодно',
+    hsub:'Алмазы, валюта, пропуска для ваших любимых игр. Доставка от 5 минут.',
+    btn_shop:'🎮 Выбрать игру',
+    st1:'Категорий',st2:'Доставка',st3:'Заказов',st4:'Онлайн',
+    choose_tag:'Выберите игру',choose_t:'Нажмите на игру чтобы открыть товары',
+    hot:'ХИТ',new_badge:'NEW',back:'Все игры',
+    mlbb_notice_html:'<strong>⚠️ Только GLOBAL аккаунты!</strong> Для заказа нужен ID и сервер. Пример: <code>1510395929 (16321)</code>',
+    id_notice_html:'<strong>🔑 Для заказа нужен ID и сервер</strong> — узнать в профиле игры.',
+    login_notice_html:'<strong>🔐 Для заказа нужен логин и пароль</strong> — передаёте продавцу.',
+    delivery:'Доставка от 5 минут',
+    cat_all:'Все',cat_diamonds:'💎 Алмазы',cat_double:'🔷 Двойные',cat_pass:'👑 Пропуска',cat_boost:'⚔️ Бустинг',
+    cat_robux_slow:'🕐 Робуксы (5-7 дней)',cat_robux_fast:'⚡ Моментальные',cat_robux_promo:'🎁 Промокоды',
+    cat_gems:'🌙 Камни истока',cat_nexus:'💠 Кроны нексуса',cat_pass_g:'👑 Пропуска',
+    cat_mono:'💠 Монохромы',cat_pass_z:'👑 Пропуска',cat_sets:'🎁 Наборы',
+    cat_essence:'✨ Сущности',cat_pass_h:'👑 Пропуска',
+    cat_uc:'💛 UC',cat_fire:'🔥 Diamonds',cat_gold:'🪙 Голда',
+    cat_login:'🔐 С логином',cat_gift:'🎁 Подарок',cat_month:'📅 По месяцам',cat_token_hok:'🏆 Токены',
+    boost_title:'Поднимем ваш ранг!',boost_sub:'Профессиональный бустинг. Винрейт 70–80%. Быстро и качественно.',
+    wr:'70–80% winrate',boost_fast:'Быстро',boost_hero:'Любой герой',safe:'Безопасно',
+    star_price_title:'Цена за 1 звезду MMR',star_price_note:'Цена зависит от ранга.',
+    stars_title:'Звёзды для <span>Telegram</span>',stars_sub:'Мин. заказ — 50 звёзд.',
+    per_star:'1 звезда',pkgs:'Готовые пакеты',
+    bonus_t:'Бонус от 500 звёзд — скидка 3%!',bonus_s:'При заказе 500+ звёзд скидка 3%',
+    sf_t:'Оформить заказ Stars',sf_s:'Заполните форму — пришлём реквизиты сразу в боте',
+    sf_qty:'Количество *',sf_tg:'Ваш Telegram *',sf_note:'Комментарий',total_l:'Итого',sf_btn:'⭐ Заказать звёзды',
+    how_tag:'Как купить',how_t:'За 3 минуты',
+    h1t:'Выберите игру',h1d:'Нажмите на нужную игру из списка',
+    h2t:'Выберите товар',h2d:'Выберите пакет и нажмите "Заказать"',
+    h3t:'Скопируйте карту',h3d:'Реквизиты появятся прямо на экране',
+    h4t:'Оплатите',h4d:'Переведите сумму на карту Humo',
+    h5t:'Пришлите чек',h5d:'Отправьте скриншот оплаты боту',
+    h6t:'Получите товар',h6d:'Бот уведомит когда заказ выдан',
+    phone:'Телефон',hours:'Режим работы',hours_v:'Круглосуточно',
+    order:'Заказать →',copy:'📋 Копировать',copied:'✅ Скопировано',
+  },
+  uz:{
+    live:'24/7 ishlayapmiz',h1a:"O'yin mahsulotlari",h1b:'tez va arzon',
+    hsub:"Sevimli o'yinlaringiz uchun olmos va valyuta. 5 daqiqadan yetkazib berish.",
+    btn_shop:"🎮 O'yin tanlang",st1:'Kategoriya',st2:'Yetkazish',st3:'Buyurtmalar',st4:'Online',
+    choose_tag:"O'yin tanlang",choose_t:"O'yinga bosing",hot:'HIT',new_badge:'YANGI',back:"Barcha o'yinlar",
+    mlbb_notice_html:"<strong>⚠️ Faqat GLOBAL akkauntlar!</strong> ID va server kerak. Misol: <code>1510395929 (16321)</code>",
+    id_notice_html:'<strong>🔑 ID va server kerak</strong>',login_notice_html:'<strong>🔐 Login va parol kerak</strong>',
+    delivery:'5 daqiqadan yetkazish',
+    cat_all:'Barchasi',cat_diamonds:'💎 Olmos',cat_double:'🔷 Juft',cat_pass:'👑 Paslar',cat_boost:'⚔️ Basting',
+    cat_robux_slow:"🕐 Robux (5-7 kun)",cat_robux_fast:'⚡ Tezkor',cat_robux_promo:'🎁 Promo',
+    cat_gems:'🌙 Toshlar',cat_nexus:'💠 Tojlar',cat_pass_g:'👑 Paslar',cat_mono:'💠 Monoxrom',
+    cat_pass_z:'👑 Paslar',cat_sets:'🎁 Setlar',cat_essence:'✨ Mohiyat',cat_pass_h:'👑 Paslar',
+    cat_uc:'💛 UC',cat_fire:'🔥 Diamonds',cat_gold:'🪙 Gold',cat_login:'🔐 Login bilan',
+    cat_gift:"🎁 Sovg'a",cat_month:'📅 Oylik',cat_token_hok:'🏆 Tokenlar',
+    boost_title:"Rangingizni ko'taramiz!",boost_sub:"70–80% g'alaba. Tez va sifatli.",
+    wr:"70–80% g'alaba",boost_fast:'Tez',boost_hero:'Istalgan qahramon',safe:'Xavfsiz',
+    star_price_title:"MMR 1 yulduz narxi",star_price_note:'Narx joriy rangga bog\'liq.',
+    stars_title:"<span>Telegram</span> uchun yulduzlar",stars_sub:"Min. buyurtma — 50 yulduz.",
+    per_star:'1 yulduz',pkgs:'Tayyor paketlar',bonus_t:'500 yulduzdan — 3% chegirma!',bonus_s:"3% chegirma",
+    sf_t:'Stars buyurtma',sf_s:"Formani to'ldiring",sf_qty:'Miqdor *',sf_tg:'Sizning Telegram *',
+    sf_note:'Izoh',total_l:'Jami',sf_btn:'⭐ Yulduz buyurtma',
+    how_tag:'Qanday sotib olish',how_t:'3 daqiqada',
+    h1t:"O'yin tanlang",h1d:"O'yinga bosing",h2t:'Mahsulot tanlang',h2d:'Paket tanlang',
+    h3t:'Rekvizitlarni nusxalang',h3d:"Karta raqamini nusxalang",
+    h4t:"To'lang",h4d:"Humo kartasiga o'tkazing",
+    h5t:'Chek yuboring',h5d:"To'lov skrinshotini yuboring",
+    h6t:'Mahsulot oling',h6d:"Bot xabar yuboradi",
+    phone:'Telefon',hours:'Ish vaqti',hours_v:"Kun bo'yi",
+    order:"Buyurtma →",copy:'📋 Nusxalash',copied:"✅ Nusxalandi",
+  },
+  en:{
+    live:'Online 24/7',h1a:'Game items',h1b:'fast & affordable',
+    hsub:'Diamonds, currency, passes for your favorite games. Delivery from 5 min.',
+    btn_shop:'🎮 Choose game',st1:'Categories',st2:'Delivery',st3:'Orders',st4:'Online',
+    choose_tag:'Choose a game',choose_t:'Click a game to see items',hot:'HOT',new_badge:'NEW',back:'All games',
+    mlbb_notice_html:'<strong>⚠️ GLOBAL accounts only!</strong> Need ID and server. Example: <code>1510395929 (16321)</code>',
+    id_notice_html:'<strong>🔑 Need game ID and server</strong>',login_notice_html:'<strong>🔐 Login and password required</strong>',
+    delivery:'Delivery from 5 min',
+    cat_all:'All',cat_diamonds:'💎 Diamonds',cat_double:'🔷 Double',cat_pass:'👑 Passes',cat_boost:'⚔️ Boost',
+    cat_robux_slow:'🕐 Robux (5-7 days)',cat_robux_fast:'⚡ Instant',cat_robux_promo:'🎁 Promo codes',
+    cat_gems:'🌙 Primogems',cat_nexus:'💠 Nexus Crystals',cat_pass_g:'👑 Passes',
+    cat_mono:'💠 Monochrome',cat_pass_z:'👑 Passes',cat_sets:'🎁 Sets',cat_essence:'✨ Stellar Jade',
+    cat_pass_h:'👑 Passes',cat_uc:'💛 UC',cat_fire:'🔥 Diamonds',cat_gold:'🪙 Gold',
+    cat_login:'🔐 With login',cat_gift:'🎁 Gift',cat_month:'📅 Monthly',cat_token_hok:'🏆 Tokens',
+    boost_title:'We will rank you up!',boost_sub:'Professional boost. 70–80% winrate. Fast.',
+    wr:'70–80% winrate',boost_fast:'Fast',boost_hero:'Any hero',safe:'Safe',
+    star_price_title:'Price per 1 MMR star',star_price_note:'Price depends on rank.',
+    stars_title:'Stars for <span>Telegram</span>',stars_sub:'Min order — 50 stars.',
+    per_star:'1 star',pkgs:'Ready packages',bonus_t:'Bonus from 500 stars — 3% off!',bonus_s:'3% off for 500+ stars',
+    sf_t:'Order Telegram Stars',sf_s:'Fill the form',sf_qty:'Quantity *',sf_tg:'Your Telegram *',
+    sf_note:'Comment',total_l:'Total',sf_btn:'⭐ Order stars',
+    how_tag:'How to buy',how_t:'In 3 minutes',
+    h1t:'Choose game',h1d:'Click the game',h2t:'Choose item',h2d:'Pick a package',
+    h3t:'Copy card',h3d:'Payment details appear on screen',h4t:'Pay',h4d:'Transfer to Humo card',
+    h5t:'Send receipt',h5d:'Send payment screenshot to bot',h6t:'Get your item',h6d:'Bot will notify you',
+    phone:'Phone',hours:'Working hours',hours_v:'24/7',order:'Order →',copy:'📋 Copy',copied:'✅ Copied',
+  }
+};
+
+// ══════════════════════════════════════════════
+//  GAMES DATA
+// ══════════════════════════════════════════════
+const GAMES=[
+  {id:'mlbb',   name:'Mobile Legends', sub:'Bang Bang',   emoji:'⚔️',  color:'#6a0dad,#9c27b0', badge:'hot'},
+  {id:'roblox', name:'Roblox',         sub:'Robux',        emoji:'🔴',  color:'#cc0000,#ff3333', badge:''},
+  {id:'genshin',name:'Genshin Impact', sub:'Примогемы',    emoji:'✨',  color:'#b8860b,#ffc107', badge:''},
+  {id:'zzz',    name:'Zenless Zone Zero',sub:'Монохромы',  emoji:'⚡',  color:'#006400,#00e676', badge:''},
+  {id:'hsr',    name:'Honkai: Star Rail',sub:'Сущности',   emoji:'🌟', color:'#1a237e,#7986cb', badge:'new'},
+  {id:'pubg',   name:'PUBG Mobile',    sub:'UC',           emoji:'🪖',  color:'#3e2723,#ffa000', badge:''},
+  {id:'ff',     name:'Free Fire',      sub:'Diamonds',     emoji:'🔥',  color:'#7f0000,#ff6d00', badge:''},
+  {id:'hok',    name:'Honor of Kings', sub:'Tokens',       emoji:'👑',  color:'#003060,#29b6f6', badge:''},
+  {id:'s2',     name:'Standoff 2',     sub:'Голда',        emoji:'🔫',  color:'#1a3a1a,#00e676', badge:''},
+  {id:'tgprem', name:'Telegram Premium',sub:'Подписка',   emoji:'💎',  color:'#0a1a40,#29b6f6', badge:''},
+  {id:'jutsu',  name:'Jutsu+',         sub:'Подписка',     emoji:'🥷',  color:'#2d0a00,#ff8f00', badge:'new'},
+  {id:'tggift', name:'Подарки Telegram',sub:'Любому',     emoji:'🎁',  color:'#1a0020,#ce93d8', badge:''},
+  {id:'stars',  name:'Telegram Stars', sub:'270 сум / ⭐', emoji:'⭐', color:'#1a0030,#ce93d8', badge:''},
+];
+
+const GAMES_META={
+  mlbb:{notice:'mlbb'}, roblox:{notice:'login'}, genshin:{notice:'id'},
+  zzz:{notice:'id'},    hsr:{notice:'id'},       pubg:{notice:'id'},
+  ff:{notice:'id'},     hok:{notice:'id'},       s2:{notice:'id'},
+  tgprem:{notice:null}, jutsu:{notice:null},     tggift:{notice:null},
+};
+
+const CATS={
+  mlbb:['all','diamonds','double','pass','boost'],
+  roblox:['all','robux_slow','robux_fast','robux_promo'],
+  genshin:['all','gems','nexus','pass_g'],
+  zzz:['all','mono','pass_z','sets'],
+  hsr:['all','essence','pass_h'],
+  pubg:['all','uc'], ff:['all','fire'], hok:['all','token_hok'],
+  s2:['all','gold'], tgprem:['all','login','gift'], jutsu:['all','month'], tggift:['all','gift'],
+};
+
+const CAT_EMOJI={diamonds:'💎',double:'🔷',pass:'👑',boost:'⚔️',
+  robux_slow:'🔴',robux_fast:'🔴',robux_promo:'🎁',gems:'🌙',nexus:'💠',
+  pass_g:'👑',mono:'💠',pass_z:'👑',sets:'🎁',essence:'✨',pass_h:'👑',
+  uc:'💛',fire:'🔥',gold:'🪙',login:'🔐',gift:'🎁',month:'📅',token_hok:'🏆'};
+
+const PRODS={
+  mlbb:[
+    {id:'m01',cat:'diamonds',name:'11 алмазов',  amt:11,  price:2500},
+    {id:'m02',cat:'diamonds',name:'22 алмаза',   amt:22,  price:5000},
+    {id:'m03',cat:'diamonds',name:'55 алмазов',  amt:55,  price:13000},
+    {id:'m05',cat:'diamonds',name:'86 алмазов',  amt:86,  price:17500},
+    {id:'m06',cat:'diamonds',name:'110 алмазов', amt:110, price:27000},
+    {id:'m08',cat:'diamonds',name:'165 алмазов', amt:165, price:35000},
+    {id:'m10',cat:'diamonds',name:'224 алмаза',  amt:224, price:48000},
+    {id:'m12',cat:'diamonds',name:'275 алмазов', amt:275, price:54000},
+    {id:'m16',cat:'diamonds',name:'385 алмазов', amt:385, price:75000},
+    {id:'m18',cat:'diamonds',name:'514 алмазов', amt:514, price:98000},
+    {id:'m20',cat:'diamonds',name:'620 алмазов', amt:620, price:120000},
+    {id:'m22',cat:'diamonds',name:'792 алмаза',  amt:792, price:150000},
+    {id:'m28',cat:'diamonds',name:'1036 алмазов',amt:1036,price:200000},
+    {id:'m33',cat:'diamonds',name:'1302 алмаза', amt:1302,price:250000},
+    {id:'m38',cat:'diamonds',name:'1584 алмаза', amt:1584,price:300000},
+    {id:'m41',cat:'diamonds',name:'2195 алмазов',amt:2195,price:400000},
+    {id:'m45',cat:'diamonds',name:'2760 алмазов',amt:2760,price:510000},
+    {id:'m51',cat:'diamonds',name:'3688 алмазов',amt:3688,price:640000},
+    {id:'m64',cat:'diamonds',name:'9288 алмазов',amt:9288,price:1590000},
+    {id:'md1',cat:'double',name:'50+50 алмазов',  price:12000,tag:'dbl',desc:'Двойные алмазы'},
+    {id:'md2',cat:'double',name:'150+150 алмазов',price:34000,tag:'dbl',desc:'Двойные алмазы'},
+    {id:'md3',cat:'double',name:'250+250 алмазов',price:53000,tag:'dbl',desc:'Двойные алмазы'},
+    {id:'md4',cat:'double',name:'500+500 алмазов',price:108000,tag:'dbl',desc:'Двойные алмазы'},
+    {id:'mp1',cat:'pass',name:'Недельник',              price:20000,tag:'pass',desc:'Weekly Diamond Pass'},
+    {id:'mp2',cat:'pass',name:'Сумеречный пропуск',     price:110000,tag:'pass',desc:'Twilight Pass'},
+    {id:'mp3',cat:'pass',name:'Недельный элитный набор',price:12000,tag:'pass',desc:'55 алм + 20 авроры'},
+    {id:'mp4',cat:'pass',name:'Месячный эпик набор',    price:56000,tag:'pass',desc:'275 алм + 180 авроры'},
+    {id:'mb1',cat:'boost',name:'Бустинг (1 ⭐)',price:4000,tag:'boost',desc:'Warrior→Elite'},
+    {id:'mb2',cat:'boost',name:'Бустинг (1 ⭐)',price:5000,tag:'boost',desc:'Master→Epic'},
+    {id:'mb3',cat:'boost',name:'Бустинг (1 ⭐)',price:6000,tag:'boost',desc:'Epic→Legend'},
+    {id:'mb4',cat:'boost',name:'Бустинг (1 ⭐)',price:7000,tag:'boost',desc:'Legend→Mythic'},
+    {id:'mb5',cat:'boost',name:'Бустинг (1 ⭐)',price:8000,tag:'boost',desc:'Mythic→Glory'},
+    {id:'mb6',cat:'boost',name:'Бустинг (1 ⭐)',price:11000,tag:'boost',desc:'Glory+'},
+  ],
+  roblox:[
+    {id:'rs1',cat:'robux_slow',name:'50 Robux',   price:11000,desc:'5-7 дней·логин'},
+    {id:'rs2',cat:'robux_slow',name:'100 Robux',  price:19000,desc:'5-7 дней·логин'},
+    {id:'rs4',cat:'robux_slow',name:'200 Robux',  price:35000,desc:'5-7 дней·логин'},
+    {id:'rs6',cat:'robux_slow',name:'300 Robux',  price:47000,desc:'5-7 дней·логин'},
+    {id:'rs10',cat:'robux_slow',name:'500 Robux', price:72000,desc:'5-7 дней·логин'},
+    {id:'rs12',cat:'robux_slow',name:'1000 Robux',price:145000,desc:'5-7 дней·логин'},
+    {id:'rs13',cat:'robux_slow',name:'1500 Robux',price:220000,desc:'5-7 дней·логин'},
+    {id:'rs14',cat:'robux_slow',name:'2000 Robux',price:280000,desc:'5-7 дней·логин'},
+    {id:'rs15',cat:'robux_slow',name:'3000 Robux',price:420000,desc:'5-7 дней·логин'},
+    {id:'rf1',cat:'robux_fast',name:'40 Robux',   price:10000,tag:'new',desc:'Моментально·логин'},
+    {id:'rf2',cat:'robux_fast',name:'400 Robux',  price:70000,tag:'new',desc:'Моментально·логин'},
+    {id:'rf3',cat:'robux_fast',name:'800 Robux',  price:145000,tag:'new',desc:'Моментально·логин'},
+    {id:'rf4',cat:'robux_fast',name:'1700 Robux', price:280000,tag:'new',desc:'Моментально·логин'},
+    {id:'rf5',cat:'robux_fast',name:'4500 Robux', price:680000,tag:'new',desc:'Моментально·логин'},
+    {id:'rp1',cat:'robux_promo',name:'100 Robux', price:68000,tag:'gift',desc:'Промокод·без логина'},
+    {id:'rp3',cat:'robux_promo',name:'800 Robux', price:170000,tag:'gift',desc:'Промокод·без логина'},
+    {id:'rp4',cat:'robux_promo',name:'1700 Robux',price:380000,tag:'gift',desc:'Промокод·без логина'},
+    {id:'rp7',cat:'robux_promo',name:'4500 Robux',price:750000,tag:'gift',desc:'Промокод·без логина'},
+  ],
+  genshin:[
+    {id:'g1',cat:'gems',name:'60 камней истока',  price:13000},
+    {id:'g2',cat:'gems',name:'330 камней истока', price:60000},
+    {id:'g3',cat:'gems',name:'1090 камней истока',price:160000},
+    {id:'g5',cat:'gems',name:'2240 камней истока',price:330000},
+    {id:'g6',cat:'gems',name:'3880 камней истока',price:510000},
+    {id:'g7',cat:'gems',name:'8080 камней истока',price:1000000},
+    {id:'gn1',cat:'nexus',name:'60 кронов',  price:13000},
+    {id:'gn2',cat:'nexus',name:'330 кронов', price:65000},
+    {id:'gn3',cat:'nexus',name:'1090 кронов',price:200000},
+    {id:'gp1',cat:'pass_g',name:'Луна (Welkin)',   price:50000,tag:'pass',desc:'90 примогем/день × 30'},
+    {id:'gp2',cat:'pass_g',name:'Жемчужный гимн',  price:125000,tag:'pass',desc:'Battle Pass Гносис'},
+    {id:'gp3',cat:'pass_g',name:'Жемчужный хор',   price:235000,tag:'pass',desc:'Расширенный Battle Pass'},
+  ],
+  zzz:[
+    {id:'z1',cat:'mono',name:'60 монохром',  price:13000},
+    {id:'z2',cat:'mono',name:'330 монохром', price:59000},
+    {id:'z3',cat:'mono',name:'1090 монохром',price:180000},
+    {id:'z4',cat:'mono',name:'2240 монохром',price:370000},
+    {id:'z5',cat:'mono',name:'3880 монохром',price:590000},
+    {id:'zp1',cat:'pass_z',name:'Интернот (Welkin)', price:57000,tag:'pass'},
+    {id:'zp2',cat:'pass_z',name:'Продвинутый план',  price:150000,tag:'pass'},
+    {id:'zp3',cat:'pass_z',name:'Премиальный план',  price:300000,tag:'pass'},
+    {id:'zs1',cat:'sets',name:'Набор "Добро пожаловать"',price:15000,tag:'gift'},
+    {id:'zs2',cat:'sets',name:'Набор "От всего сердца"', price:70000,tag:'gift'},
+    {id:'zs4',cat:'sets',name:'Набор "Только для вас"',  price:250000,tag:'gift'},
+  ],
+  hsr:[
+    {id:'h1',cat:'essence',name:'60 сущностей',  price:13000},
+    {id:'h2',cat:'essence',name:'330 сущностей', price:60000},
+    {id:'h3',cat:'essence',name:'1090 сущностей',price:160000},
+    {id:'h5',cat:'essence',name:'2240 сущностей',price:330000},
+    {id:'h6',cat:'essence',name:'3880 сущностей',price:510000},
+    {id:'h7',cat:'essence',name:'8080 сущностей',price:1000000},
+    {id:'hp1',cat:'pass_h',name:'Пропуск снабжения',price:50000,tag:'pass',desc:'Express Supply Pass'},
+  ],
+  pubg:[
+    {id:'p1',cat:'uc',name:'325 UC',   price:64000},
+    {id:'p3',cat:'uc',name:'660 UC',   price:120000},
+    {id:'p4',cat:'uc',name:'985 UC',   price:190000},
+    {id:'p5',cat:'uc',name:'1320 UC',  price:250000},
+    {id:'p7',cat:'uc',name:'2460 UC',  price:450000},
+    {id:'p8',cat:'uc',name:'5650 UC',  price:900000},
+    {id:'p10',cat:'uc',name:'16200 UC',price:2300000},
+  ],
+  ff:[
+    {id:'f1',cat:'fire',name:'100 Diamonds',price:26000},
+    {id:'f2',cat:'fire',name:'200 Diamonds',price:50000},
+    {id:'f4',cat:'fire',name:'500 Diamonds',price:90000},
+    {id:'f5',cat:'fire',name:'1000 Diamonds',price:165000},
+    {id:'f6',cat:'fire',name:'3000 Diamonds',price:400000},
+  ],
+  hok:[
+    {id:'hk1',cat:'token_hok',name:'80 Tokens',  price:15000},
+    {id:'hk3',cat:'token_hok',name:'400 Tokens', price:70000},
+    {id:'hk5',cat:'token_hok',name:'830 Tokens', price:130000},
+    {id:'hk7',cat:'token_hok',name:'2508 Tokens',price:355000},
+    {id:'hk9',cat:'token_hok',name:'8360 Tokens',price:1200000},
+  ],
+  s2:[
+    {id:'s1',cat:'gold',name:'100 Голды', price:26000},
+    {id:'s2',cat:'gold',name:'200 Голды', price:50000},
+    {id:'s4',cat:'gold',name:'500 Голды', price:90000},
+    {id:'s5',cat:'gold',name:'1000 Голды',price:165000},
+    {id:'s6',cat:'gold',name:'3000 Голды',price:400000},
+  ],
+  tgprem:[
+    {id:'tp1',cat:'login',name:'1 месяц Premium',  price:38000,tag:'login',desc:'С входом'},
+    {id:'tp2',cat:'login',name:'12 месяцев Premium',price:280000,tag:'login',desc:'С входом'},
+    {id:'tg1',cat:'gift',name:'3 месяца Premium',  price:170000,tag:'gift',desc:'Подарок'},
+    {id:'tg2',cat:'gift',name:'6 месяцев Premium', price:225000,tag:'gift',desc:'Подарок'},
+    {id:'tg3',cat:'gift',name:'12 месяцев Premium',price:400000,tag:'gift',desc:'Подарок'},
+  ],
+  jutsu:[
+    {id:'j1',cat:'month',name:'1 месяц Jutsu+', price:15000,tag:'new'},
+    {id:'j2',cat:'month',name:'6 месяцев Jutsu+',price:85000,tag:'new',desc:'Хороший подарок!'},
+  ],
+  tggift:[
+    {id:'tgf1',cat:'gift',name:'🌹 Роза',           price:6500,tag:'gift',desc:'1 подарок'},
+    {id:'tgf2',cat:'gift',name:'🎂🌹🚀🎁🍾 Набор',   price:12000,tag:'gift',desc:'5 подарков'},
+    {id:'tgf3',cat:'gift',name:'🏆💍💎 Премиум набор',price:23500,tag:'gift',desc:'3 подарка'},
+  ],
+};
+
+const RANKS=[
+  {icon:'🥉',name:'Warrior → Elite',  stars:'~10–20 ⭐',price_range:'от 4 000/⭐'},
+  {icon:'🥈',name:'Master → Epic',    stars:'~20–30 ⭐',price_range:'от 5 000/⭐'},
+  {icon:'🥇',name:'Epic → Legend',    stars:'~30–40 ⭐',price_range:'от 6 000/⭐'},
+  {icon:'💎',name:'Legend → Mythic',  stars:'~40–50 ⭐',price_range:'от 7 000/⭐'},
+  {icon:'🔱',name:'Mythic → Glory',   stars:'~50+ ⭐',  price_range:'от 8–11 000/⭐'},
+];
+
+const STAR_PKGS=[50,75,100,150,200,250,300,350,400,450,500,600,700,800,1000,5000,10000,50000,100000];
+
+// ══════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════
+let lang='ru', curGame=null, curCat='all', selStarQty=0, curCurr='sum';
+let pollInterval=null;
+
+// ══════════════════════════════════════════════
+//  UTILS
+// ══════════════════════════════════════════════
+function fmt(n){return Number(n).toLocaleString('ru-RU');}
+function rub(s){return fmt(Math.max(1,Math.round(Number(s)/150)));}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+function gInfo(gid){return GAMES.find(g=>g.id===gid);}
+function gbg(gid){const g=gInfo(gid);return g?`linear-gradient(160deg,#${g.color.split(',')[0].replace(/[^0-9a-f]/gi,'').slice(-6)||'080f20'},${g.color.split(',')[1]?.trim()||'#0c1830'})`:'linear-gradient(160deg,#080f20,#0c1830)';}
+function gemoji(gid){return gInfo(gid)?.emoji||'🎮';}
+
+function tr(k){return T[lang]?.[k]||T.ru[k]||k;}
+function applyLang(){
+  document.querySelectorAll('[data-t]').forEach(el=>{
+    const k=el.dataset.t;
+    if(k.endsWith('_html')) el.innerHTML=tr(k);
+    else el.textContent=tr(k);
+  });
+}
+function setLang(l){
+  lang=l;
+  document.querySelectorAll('.lb').forEach((b,i)=>b.classList.toggle('on',['ru','uz','en'][i]===l));
+  applyLang(); renderGameGrid();
+  if(curGame&&curGame!=='stars'){renderCats();renderProds();}
+  if(curGame==='stars') renderStarsGrid();
+}
+function setCurr(c){
+  curCurr=c;
+  ['cb-sum','cb-sum-s'].forEach(id=>document.getElementById(id)?.classList.toggle('on',c==='sum'));
+  ['cb-rub','cb-rub-s'].forEach(id=>document.getElementById(id)?.classList.toggle('on',c==='rub'));
+  if(curGame&&curGame!=='stars') renderProds();
+  if(curGame==='stars') renderStarsGrid();
+}
+function priceFmt(sum){
+  return curCurr==='rub' ? `${rub(sum)}<small> ₽</small>` : `${fmt(sum)}<small> сум</small>`;
+}
+
+// ══════════════════════════════════════════════
+//  GAME GRID
+// ══════════════════════════════════════════════
+function renderGameGrid(){
+  document.getElementById('game-grid').innerHTML=GAMES.map(g=>{
+    const bg=`linear-gradient(160deg,${g.color.split(',')[0]},${g.color.split(',')[1]||g.color.split(',')[0]})`;
+    let badge='';
+    if(g.badge==='hot') badge=`<div class="gb-hot" data-t="hot">${tr('hot')}</div>`;
+    if(g.badge==='new') badge=`<div class="gb-new" data-t="new_badge">${tr('new_badge')}</div>`;
+    return `<div class="gb" id="gb-${g.id}" onclick="selGame('${g.id}')" style="background:${bg}">
+      ${badge}
+      <div class="gb-icon"><div class="gb-emoji" style="background:${bg}">${g.emoji}</div></div>
+      <div class="gb-label"><div class="gb-name">${g.name}</div><div class="gb-sub">${g.sub}</div></div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════
+//  GAME SELECTION
+// ══════════════════════════════════════════════
+function selGame(gid){
+  curGame=gid; curCat='all';
+  document.querySelectorAll('.gb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('gb-'+gid)?.classList.add('on');
+  const gsec=document.getElementById('gsec');
+  const psec=document.getElementById('prod-sec');
+  const ssec=document.getElementById('stars-sec');
+  if(!gid){
+    gsec.style.display=''; psec.style.display='none'; ssec.style.display='none';
+    window.scrollTo({top:0,behavior:'smooth'}); return;
+  }
+  gsec.style.display='none';
+  if(gid==='stars'){
+    psec.style.display='none'; ssec.style.display='block';
+    ssec.scrollIntoView({behavior:'smooth',block:'start'}); return;
+  }
+  psec.style.display='block'; ssec.style.display='none';
+  const g=gInfo(gid);
+  document.getElementById('prod-title').textContent=g?.name||gid;
+  const emojiEl=document.getElementById('prod-title-emoji');
+  emojiEl.textContent=g?.emoji||'🎮';
+  emojiEl.style.background=`linear-gradient(135deg,${g?.color||'#080f20,#0c1830'})`;
+  ['mlbb','id','login'].forEach(n=>document.getElementById('notice-'+n).style.display='none');
+  const notice=GAMES_META[gid]?.notice;
+  if(notice) document.getElementById('notice-'+notice).style.display='flex';
+  document.getElementById('boost-sec').style.display='none';
+  renderCats(); renderProds();
+  psec.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ══════════════════════════════════════════════
+//  CATEGORIES
+// ══════════════════════════════════════════════
+function renderCats(){
+  document.getElementById('cat-row').innerHTML=(CATS[curGame]||['all']).map(c=>
+    `<button class="chip ${c===curCat?'on':''}" onclick="setCat('${c}')">${tr('cat_'+c)||c}</button>`
+  ).join('');
+}
+function setCat(c){
+  curCat=c; renderCats();
+  if(curGame==='mlbb'&&c==='boost'){renderBoost();return;}
+  document.getElementById('boost-sec').style.display='none';
+  document.getElementById('pgrid').style.display='grid';
+  renderProds();
+}
+
+// ══════════════════════════════════════════════
+//  BOOST
+// ══════════════════════════════════════════════
+function renderBoost(){
+  document.getElementById('boost-sec').style.display='block';
+  document.getElementById('pgrid').style.display='none';
+  document.getElementById('rank-grid').innerHTML=RANKS.map(r=>
+    `<div class="rank-card">
+      <div class="rank-icon">${r.icon}</div>
+      <div class="rank-name">${r.name}</div>
+      <div class="rank-price">${r.stars} · <span>${r.price_range}</span></div>
+      <button class="rank-btn" onclick="orderItem(null,'mlbb','Бустинг: ${r.name}',null,0)">${tr('order')}</button>
+    </div>`
+  ).join('');
+}
+
+// ══════════════════════════════════════════════
+//  PRODUCTS
+// ══════════════════════════════════════════════
+const TAGS={
+  dbl:  ()=>`<span class="ptag t-dbl">×2</span>`,
+  pass: ()=>`<span class="ptag t-pass">PASS</span>`,
+  boost:()=>`<span class="ptag t-boost">BOOST</span>`,
+  new:  ()=>`<span class="ptag t-new">NEW</span>`,
+  gift: ()=>`<span class="ptag t-gift">🎁</span>`,
+  login:()=>`<span class="ptag t-login">🔐</span>`,
+};
+
+function renderProds(){
+  if(!curGame||curGame==='stars') return;
+  const q=(document.getElementById('s-in')?.value||'').toLowerCase();
+  const items=(PRODS[curGame]||[]).filter(p=>{
+    if(p.cat==='boost') return false;
+    if(curCat!=='all'&&p.cat!==curCat) return false;
+    if(q) return p.name.toLowerCase().includes(q);
+    return true;
+  });
+  const g=gInfo(curGame);
+  const bg=`linear-gradient(160deg,${g?.color||'#080f20,#0c1830'})`;
+  document.getElementById('pgrid').innerHTML=items.map(p=>{
+    const ico=CAT_EMOJI[p.cat]||g?.emoji||'💎';
+    const tag=p.tag?TAGS[p.tag]?.():'';
+    const cnt=p.amt?`<div class="p-cnt">${p.amt} 💎</div>`:'';
+    return `<div class="pcard">
+      <div class="part" style="background:${bg}20">
+        <div class="part-ico" style="background:${bg}">${ico}</div>${cnt}
+      </div>
+      <div class="pbody">
+        <div class="pname">${p.name}${tag||''}</div>
+        ${p.desc?`<div class="pdesc">${p.desc}</div>`:''}
+        <div class="pfoot">
+          <div class="pprice-col">
+            <div class="pprice">${priceFmt(p.price)}</div>
+            <div class="pprice-rub">≈ ${rub(p.price)} ₽</div>
+          </div>
+          <button class="oa" onclick="orderItem('${p.id}','${curGame}','${p.name}','${g?.emoji||'🎮'}',${p.price})">${tr('order')}</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════
+//  ORDER FLOW
+// ══════════════════════════════════════════════
+async function orderItem(pid, gid, name, emoji, price){
+  const g=gInfo(gid);
+  const orderId=uid();
+  const buyerId=getBuyerId();
+  const buyerName=getBuyerName()||'Покупатель';
+
+  // Показать модалку с реквизитами
+  showPayModal({pid,gid,name,emoji:emoji||g?.emoji||'🎮',price,gameName:g?.name||gid,orderId});
+
+  // Сохранить локально
+  const o={id:orderId,pid,gid,name,gameName:g?.name||gid,price,status:'pending',date:new Date().toISOString(),emoji:emoji||g?.emoji};
+  addOrder(o);
+
+  // Отправить в бэкенд (бот уведомит тебя автоматически)
+  try{
+    await fetch(API_BASE+'/api/order',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        id:orderId, pid, gid, name, gameName:g?.name||gid, price,
+        buyer_id:buyerId, buyer_name:buyerName,
+        buyer_username:lsGet(LS_BUYER)?.username||null,
+        date:new Date().toISOString(),
+      })
+    });
+  }catch(e){console.warn('API offline',e);}
+
+  // Начать опрос статуса
+  startPoll(orderId);
+}
+
+function showPayModal({pid,gid,name,emoji,price,gameName,orderId}){
+  document.getElementById('m-prod').style.display='flex';
+  document.getElementById('m-prod-ico').textContent=emoji||'🎮';
+  document.getElementById('m-prod-ico').style.background=gid?`linear-gradient(135deg,${gInfo(gid)?.color||'#080f20,#0c1830'})`:'#0c1830';
+  document.getElementById('m-prod-name').textContent=name;
+  document.getElementById('m-prod-game').textContent=gameName||'';
+  if(price){
+    document.getElementById('m-total').textContent=curCurr==='rub'?`${rub(price)} ₽`:`${fmt(price)} сум`;
+    document.getElementById('m-total-sub').textContent=curCurr==='sum'?`≈ ${rub(price)} ₽`:'';
+  }else{
+    document.getElementById('m-total').textContent='По договорённости';
+    document.getElementById('m-total-sub').textContent='';
+  }
+  document.getElementById('mbg').classList.add('on');
+}
+
+function closePay(){document.getElementById('mbg').classList.remove('on');}
+
+// ══════════════════════════════════════════════
+//  STATUS POLLING
+// ══════════════════════════════════════════════
+function startPoll(orderId){
+  if(pollInterval) clearInterval(pollInterval);
+  pollInterval=setInterval(async()=>{
+    try{
+      const r=await fetch(API_BASE+'/api/status',{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({id:orderId})
+      });
+      const d=await r.json();
+      if(d.status&&d.status!=='pending'){
+        updateOrderStatus(orderId,d.status);
+        clearInterval(pollInterval);
+        if(d.status==='done'){
+          showStatusToast('✅ Заказ выдан! Проверяйте 🎮');
+        }
+      }
+    }catch(e){}
+  },8000);
+}
+function showStatusToast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.style.background='rgba(0,180,80,.95)';
+  el.classList.add('on'); setTimeout(()=>{el.classList.remove('on');el.style.background='';},5000);
+}
+
+// ══════════════════════════════════════════════
+//  HISTORY
+// ══════════════════════════════════════════════
+function renderHistory(){
+  const sec=document.getElementById('hist-sec');
+  const list=document.getElementById('hist-list');
+  const items=getOrders();
+  if(!items.length){sec.style.display='none';return;}
+  sec.style.display='block';
+  list.innerHTML=items.slice(0,20).map(o=>{
+    const g=gInfo(o.gid);
+    const bg=o.gid?`linear-gradient(135deg,${g?.color||'#080f20,#0c1830'})`:'#0c1830';
+    const e=o.emoji||g?.emoji||'🎮';
+    const d=new Date(o.date);
+    const ds=d.toLocaleDateString('ru-RU',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+    const st=o.status||'pending';
+    const stMap={pending:{cls:'hs-p',txt:'⏳ Ожидает'},done:{cls:'hs-d',txt:'✅ Выдан'},rejected:{cls:'hs-r',txt:'❌ Отклонён'}};
+    const {cls,txt}=stMap[st]||stMap.pending;
+    const openBtn=st==='pending'
+      ?`<div><button class="hist-open-btn" onclick="reopenOrder('${o.id}')">💳 Оплатить</button>
+         <div class="hist-poll"><div class="poll-dot"></div>Ждём подтверждения...</div></div>`:'';
+    return `<div class="hist-item st-${st}" onclick="">
+      <div class="hist-ico" style="background:${bg}">${e}</div>
+      <div class="hist-body">
+        <div class="hist-name">${o.name||'Товар'}</div>
+        <div class="hist-game">${o.gameName||''}</div>
+        <span class="hist-status ${cls}">${txt}</span>
+        ${openBtn}
+      </div>
+      <div class="hist-right">
+        <div class="hist-price">${fmt(o.price||0)} сум</div>
+        <div class="hist-date">${ds}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function reopenOrder(orderId){
+  const o=getOrders().find(x=>x.id===orderId);
+  if(!o||o.status!=='pending') return;
+  showPayModal({pid:o.pid,gid:o.gid,name:o.name,emoji:o.emoji,price:o.price,gameName:o.gameName,orderId});
+  startPoll(orderId);
+}
+
+function clearHistory(){
+  if(!confirm('Очистить историю заказов?')) return;
+  saveOrders([]); renderHistory();
+}
+
+// ══════════════════════════════════════════════
+//  STARS
+// ══════════════════════════════════════════════
+function renderStarsGrid(){
+  const rateEl=document.getElementById('star-rate');
+  if(rateEl) rateEl.innerHTML=curCurr==='rub'?`${rub(270)} <span style="font-size:15px;color:var(--muted)">₽</span>`:`270 <span style="font-size:15px;color:var(--muted)">сум</span>`;
+  document.getElementById('sgrid').innerHTML=STAR_PKGS.map(q=>{
+    const price=q*270,bonus=q>=500,final=bonus?Math.round(price*.97):price,sel=selStarQty===q;
+    const dp=curCurr==='rub'?`${rub(final)} ₽`:fmt(final)+' сум';
+    return `<div class="sc ${bonus?'bon':''} ${sel?'sel':''}" onclick="pickStar(${q})">
+      ${bonus?'<div class="sc-bon-tag">-3%</div>':''}
+      <div class="sc-art">
+        <svg viewBox="0 0 54 54" style="position:absolute;inset:0;width:100%;height:100%"><rect width="54" height="54" fill="#1a0035"/><radialGradient id="sg" cx="65%" cy="35%" r="50%"><stop stop-color="rgba(160,0,255,.22)"/><stop offset="1" stop-color="transparent"/></radialGradient><rect width="54" height="54" fill="url(#sg)"/><polygon points="27,8 31.5,19.5 44,19.5 34.5,26.5 38,37.5 27,30.5 16,37.5 19.5,26.5 10,19.5 22.5,19.5" fill="#ce93d8" opacity=".85"/></svg>
+        <div style="position:relative;z-index:2;font-family:var(--R);font-size:13px;font-weight:700;color:rgba(255,255,255,.75)">${q>=1000?(q/1000)+'K':q}</div>
+      </div>
+      <div class="sc-info"><div class="sc-q">⭐ ${q>=1000?(q/1000)+'K':q}</div><div class="sc-p">${dp}${bonus?' (-3%)':''}</div></div>
+    </div>`;
+  }).join('');
+}
+function pickStar(q){selStarQty=q;document.getElementById('sf-q').value=q;sfCalc();renderStarsGrid();}
+function sfCalc(){
+  const qty=parseInt(document.getElementById('sf-q').value)||0;
+  const tg=document.getElementById('sf-tg').value.trim();
+  if(qty<50){document.getElementById('sf-total').textContent='Мин. 50';document.getElementById('sf-btn').disabled=true;return;}
+  const price=qty*270,bonus=qty>=500,final=bonus?Math.round(price*.97):price;
+  const dp=curCurr==='rub'?`${rub(final)} ₽`:fmt(final)+' сум';
+  document.getElementById('sf-total').textContent=dp+(bonus?' (-3%)':'');
+  document.getElementById('sf-btn').disabled=!tg;
+}
+async function submitStars(){
+  const qty=parseInt(document.getElementById('sf-q').value)||0;
+  const tg=document.getElementById('sf-tg').value.trim();
+  const note=document.getElementById('sf-note').value.trim();
+  if(qty<50||!tg) return;
+  const price=qty*270,bonus=qty>=500,final=bonus?Math.round(price*.97):price;
+  await orderItem(null,null,`⭐ ${qty} Telegram Stars`,'⭐',final);
+}
+
+// ══════════════════════════════════════════════
+//  COPY / TOAST
+// ══════════════════════════════════════════════
+function copyCard(num,idx){
+  navigator.clipboard.writeText(num).catch(()=>{const t=document.createElement('textarea');t.value=num;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);});
+  const btn=document.getElementById('cb'+idx);const orig=btn.innerHTML;
+  btn.textContent=tr('copied');btn.classList.add('ok');
+  setTimeout(()=>{btn.innerHTML=orig;btn.classList.remove('ok');},2400);
+  toast(tr('copied'));
+}
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('on');setTimeout(()=>el.classList.remove('on'),2000);}
+function promptLinked(){lsSet('fs_tg_linked',true);}
+
+// ══════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════
+applyLang();
+renderGameGrid();
+renderStarsGrid();
+renderHistory();
+updateStatBadge();
+document.getElementById('sf-tg').addEventListener('input',sfCalc);
+
+// Показать подсказку бота если нет buyer_id
+if(!getBuyerId()){
+  document.getElementById('tg-prompt').style.display='flex';
+}
+
+// Возобновить polling для pending заказов
+(()=>{
+  const pending=getOrders().filter(o=>o.status==='pending');
+  if(pending.length) startPoll(pending[0].id);
+})();
+</script>
+</body>
+</html>
