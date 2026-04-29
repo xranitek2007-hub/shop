@@ -143,9 +143,8 @@ const GAME_MAP = {
   'ff':      'free-fire',
   'hok':     'honor-of-kings',
   's2':      'standoff-2',
-  'tgprem':  'telegram-premium',  // если доступно в buypin
+  'tgprem':  'telegram-premium',
   'tgstars': 'telegram-stars',
-  // roblox — вручную, не в buypin
 };
 
 // ─────────────────────────────────────────────────
