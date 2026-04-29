@@ -49,13 +49,13 @@ log = logging.getLogger(__name__)
 #  ⚙️  НАСТРОЙКИ
 # ══════════════════════════════════════════════
 BOT_TOKEN   = os.getenv("BOT_TOKEN",   "8165503899:AAGlY0wz8vMqtWftiOXIDPTh95Gppk06FPs")
-ADMIN_ID    = int(os.getenv("frozenld1", "123456789"))   # ← ЗАМЕНИ свой TG ID
-ADMIN_USER  = "frozenld1"                               # ← твой @username (без @)
-BOT_USER    = "frozenld_bot"                            # ← username бота (без @)
+ADMIN_ID    = int(os.getenv("frozenld1", "6673616910"))
+ADMIN_USER  = "frozenld1"
+BOT_USER    = "frozenld_bot"
 WEBHOOK_URL = os.getenv("WEBHOOK_URL", "https://YOUR-APP.railway.app")
 SITE_URL    = os.getenv("SITE_URL",    "https://YOUR-SITE.vercel.app")
 PORT        = int(os.getenv("PORT", 8000))
-RUB_RATE    = 150   # 1 сум = 1/150 руб → price_rub = price_sum / 150
+RUB_RATE    = 150
 
 CARDS = [
     {"bank": "HUMO", "num": "9860 1606 3787 3359", "raw": "9860160637873359", "owner": "Бухарбаев Бердах"},
@@ -182,7 +182,7 @@ CATALOG = {
         {"id":"s05","name":"3000 🪙", "price":400000},
     ],
     "tgprem": [
-        {"id":"tp1","name":"1 мес Premium (с входом)",  "price":38000},
+        {"id":"tp1","name":"1 мес Premium (с входом)",  "price":40000},
         {"id":"tp2","name":"3 мес Premium (подарок)",   "price":170000},
         {"id":"tp3","name":"6 мес Premium (подарок)",   "price":225000},
         {"id":"tp4","name":"12 мес Premium (с входом)", "price":280000},
@@ -194,8 +194,8 @@ CATALOG = {
     ],
     "tggift": [
         {"id":"tg1","name":"🌹 Роза (1 подарок)",         "price":6500},
-        {"id":"tg2","name":"🎂🌹🚀 Набор (5 подарков)",   "price":12000},
-        {"id":"tg3","name":"🏆💍💎 Премиум (3 подарка)",  "price":23500},
+        {"id":"tg2","name":"🎂🌹🚀",   "price":12000},
+        {"id":"tg3","name":"🏆💍💎",  "price":23500},
     ],
     "stars": [
         {"id":"st1","name":"50 ⭐",      "price":13500},
