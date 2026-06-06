@@ -25,7 +25,7 @@ async def on_startup():
     print(f"  BOT_TOKEN  : {'✅ set' if BOT_TOKEN else '❌ NOT SET'}")
     print(f"  ADMIN_ID   : {ADMIN_ID}")
     print(f"  BUYPIN_KEY : {'✅ set' if BUYPIN_KEY else '❌ NOT SET — auto-fulfillment disabled'}")
-    print(f"  PORT       : {PORT}")
+    print(f"  PORT       : {8000}")
     print(f"  Games      : {', '.join(GAME_NAMES.keys())}")
     print("═" * 50 + "\n")
 
